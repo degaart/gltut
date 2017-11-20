@@ -10,22 +10,25 @@ LDFLAGS := $(LDFLAGS) -g -L$(PREFIX)/lib \
 	-liconv -lm \
 	-lGLEW -lSDL2
 
+SRCS := $(wildcard *.cpp)
+HDRS := $(wildcard *.h)
+OBJS := $(patsubst %.cpp,obj/%.cpp.o,$(SRCS))
+
 all: obj obj/gltut
 
 obj:
 	mkdir -p obj
 
-obj/gltut: obj/main.o obj/display.o obj/shader.o
+-include obj/Depends.mk
+
+obj/Depends.mk:
+	CXXFLAGS="$(CXXFLAGS)" ./makedepend.sh $(SRCS)
+
+obj/gltut: $(OBJS)
 	c++ -o $@ $(LDFLAGS) $^
 
-obj/main.o: main.cpp
-	c++ -c -o $@ $(CXXFLAGS) $<
-
-obj/display.o: display.cpp display.h
-	c++ -c -o $@ $(CXXFLAGS) $<
-
-obj/shader.o: shader.cpp shader.h
-	c++ -c -o $@ $(CXXFLAGS) $<
+obj/%.cpp.o:
+	c++ -c -o $@ $(CXXFLAGS) $*.cpp
 
 clean:
 	rm -rf obj
