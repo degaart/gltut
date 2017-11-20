@@ -21,6 +21,7 @@ Display::Display(int width, int height, std::string title):
 
     m_glContext = SDL_GL_CreateContext(m_window);
 
+    glewExperimental = GL_TRUE;
     GLenum status = glewInit();
     if(status != GLEW_OK) {
         std::cerr << "Failed to initialize glew\n";

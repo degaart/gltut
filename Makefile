@@ -1,6 +1,7 @@
 .PHONY: all clean
 .SUFFIXES:
 
+PROGRAM := gltut
 PREFIX := $(HOME)/Desktop/OpenGL
 CXXFLAGS := $(CXXFLAGS) -g -I$(PREFIX)/include -std=gnu++14
 LDFLAGS := $(LDFLAGS) -g -L$(PREFIX)/lib \
@@ -14,7 +15,7 @@ SRCS := $(wildcard *.cpp)
 HDRS := $(wildcard *.h)
 OBJS := $(patsubst %.cpp,obj/%.cpp.o,$(SRCS))
 
-all: obj obj/gltut
+all: obj obj/$(PROGRAM)
 
 obj:
 	mkdir -p obj
@@ -24,7 +25,7 @@ obj:
 obj/Depends.mk:
 	CXXFLAGS="$(CXXFLAGS)" ./makedepend.sh $(SRCS)
 
-obj/gltut: $(OBJS)
+obj/$(PROGRAM): $(OBJS)
 	c++ -o $@ $(LDFLAGS) $^
 
 obj/%.cpp.o:
