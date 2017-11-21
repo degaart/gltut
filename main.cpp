@@ -17,7 +17,7 @@ int main()
         Vertex(glm::vec3(0.5, -0.5, 0), glm::vec2(1.0, 0.0)),
     };
     Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
-    Texture texture("./res/clouds.png");
+    Texture texture("./res/checkers.png");
     Transform transform;
 
     float counter = 0.0f;
