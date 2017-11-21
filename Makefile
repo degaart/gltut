@@ -15,14 +15,14 @@ SRCS := $(wildcard *.cpp)
 HDRS := $(wildcard *.h)
 OBJS := $(patsubst %.cpp,obj/%.cpp.o,$(SRCS))
 
-all: obj obj/$(PROGRAM)
+all: obj obj/Depends.mk obj/$(PROGRAM)
 
 obj:
 	mkdir -p obj
 
 -include obj/Depends.mk
 
-obj/Depends.mk:
+obj/Depends.mk: $(SRCS)
 	CXXFLAGS="$(CXXFLAGS)" ./makedepend.sh $(SRCS)
 
 obj/$(PROGRAM): $(OBJS)

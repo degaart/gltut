@@ -4,6 +4,7 @@
 #include "shader.h"
 #include "mesh.h"
 #include "texture.h"
+#include "transform.h"
 
 int main()
 {
@@ -17,15 +18,28 @@ int main()
     };
     Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
     Texture texture("./res/clouds.png");
+    Transform transform;
+
+    float counter = 0.0f;
 
     while(!display.IsClosed()) {
         display.Clear(0.0f, 0.25f, 0.50f, 1.0f);
 
+        float sinCounter = sin(counter);
+        float cosCounter = cos(counter);
+
+        transform.GetPos().x = sinCounter;
+        transform.GetRot().z = counter * 10.0f;
+        transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
+
         shader.Bind();
         texture.Bind(0);
+        shader.Update(transform);
         mesh.Draw();
 
         display.Update();
+
+        counter += 0.01f;
     }
     return 0;
 }
