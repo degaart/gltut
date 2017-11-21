@@ -3,6 +3,7 @@
 #include <string>
 #include <GL/glew.h>
 #include "transform.h"
+#include "camera.h"
 
 class Shader {
     public:
@@ -12,7 +13,7 @@ class Shader {
         Shader& operator=(const Shader&) = delete;
 
         void Bind();
-        void Update(const Transform& transform);
+        void Update(const Transform& transform, const Camera& camera);
     private:
         static const int NUM_SHADERS = 2;
         enum {

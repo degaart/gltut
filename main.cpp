@@ -5,10 +5,14 @@
 #include "mesh.h"
 #include "texture.h"
 #include "transform.h"
+#include "camera.h"
+
+#define WIDTH 800
+#define HEIGHT 600
 
 int main()
 {
-    Display display(800, 600, "gltut");
+    Display display(WIDTH, HEIGHT, "gltut");
 
     Shader shader("./res/basicShader");
     Vertex vertices[] = {
@@ -18,6 +22,12 @@ int main()
     };
     Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
     Texture texture("./res/checkers.png");
+    Camera camera(glm::vec3(0, 0, -2),
+                  70.0f,
+                  (float)WIDTH / (float)HEIGHT,
+                  0.01f,
+                  1000.0f);
+                  
     Transform transform;
 
     float counter = 0.0f;
@@ -29,12 +39,15 @@ int main()
         float cosCounter = cos(counter);
 
         transform.GetPos().x = sinCounter;
-        transform.GetRot().z = counter * 10.0f;
-        transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
+        transform.GetPos().z = cosCounter;
+        transform.GetRot().x = counter * 5.0f;
+        transform.GetRot().y = counter * 5.0f;
+        transform.GetRot().z = counter * 5.0f;
+        //transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
 
         shader.Bind();
         texture.Bind(0);
-        shader.Update(transform);
+        shader.Update(transform, camera);
         mesh.Draw();
 
         display.Update();
