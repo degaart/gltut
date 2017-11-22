@@ -20,9 +20,15 @@ int main()
         Vertex(glm::vec3(0, 0.5, 0), glm::vec2(0.5, 1.0)),
         Vertex(glm::vec3(0.5, -0.5, 0), glm::vec2(1.0, 0.0)),
     };
-    Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+    int indices[] = {
+        0, 1, 2
+    };
+
+    Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]),
+              indices, sizeof(indices) / sizeof(indices[0]));
+    Mesh mesh2("./res/monkey3.obj");
     Texture texture("./res/checkers.png");
-    Camera camera(glm::vec3(0, 0, -2),
+    Camera camera(glm::vec3(0, 0, -5),
                   70.0f,
                   (float)WIDTH / (float)HEIGHT,
                   0.01f,
@@ -40,15 +46,16 @@ int main()
 
         transform.GetPos().x = sinCounter;
         transform.GetPos().z = cosCounter;
-        transform.GetRot().x = counter * 5.0f;
-        transform.GetRot().y = counter * 5.0f;
-        transform.GetRot().z = counter * 5.0f;
+        transform.GetRot().x = counter * 2.0f;
+        transform.GetRot().y = counter * 2.0f;
+        transform.GetRot().z = counter * 2.0f;
         //transform.SetScale(glm::vec3(cosCounter, cosCounter, cosCounter));
 
         shader.Bind();
         texture.Bind(0);
         shader.Update(transform, camera);
         mesh.Draw();
+        mesh2.Draw();
 
         display.Update();
 

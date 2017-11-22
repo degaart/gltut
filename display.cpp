@@ -12,6 +12,7 @@ Display::Display(int width, int height, std::string title):
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     m_window = SDL_CreateWindow(title.c_str(), 
@@ -26,6 +27,10 @@ Display::Display(int width, int height, std::string title):
     if(status != GLEW_OK) {
         std::cerr << "Failed to initialize glew\n";
     }
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 }
 
 Display::~Display()
@@ -38,7 +43,7 @@ Display::~Display()
 void Display::Clear(float r, float g, float b, float a)
 {
     glClearColor(r, g, b, a);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Display::Update()
